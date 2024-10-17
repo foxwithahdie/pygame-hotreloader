@@ -4,9 +4,11 @@ version = "0.0.1"
 description = "A hotreloader for Pygame"
 authors = ["ram <ramzey.burdette2005@gmail.com>"]
 readme = "README.md"
+license = "MIT License"
 
 [tool.poetry.dependencies]
 python = "^3.12"
+pygame = "^2.6.0"
 
 
 [build-system]
