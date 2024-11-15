@@ -1,0 +1,8 @@
+{
+    "files.associations": {
+        "*.ejs": "html",
+        "python.h": "c",
+        "pygame.h": "c",
+        "_pygame.h": "c"
+    }
+}
