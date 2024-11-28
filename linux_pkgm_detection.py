@@ -5,10 +5,12 @@ import json
 import os
 import shutil
 
+JSONConfigList = list[dict[str, str | list[str]]] # json config list type
+
 
 def linux_load_package_manager_config(
         config_file: str = "linux_package_managers.json"
-    ) -> list[dict[str, str | list[str]]]:
+    ) -> JSONConfigList:
     """
     Loads the package manager json and its accompanying files from a json to a list of dictionaries.
 
@@ -49,7 +51,7 @@ def linux_detect_package_manager(
         Linux distribution package manager, its install keyword, if it exists,
         and its required packages.
     """
-    package_managers: list[dict[str, str]] = linux_load_package_manager_config(config_file)
+    package_managers: JSONConfigList = linux_load_package_manager_config(config_file)
 
     for manager in package_managers:
         if shutil.which(manager["name"]):

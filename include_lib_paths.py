@@ -8,6 +8,8 @@ import os
 
 from linux_pkgm_detection import linux_detect_package_manager
 
+JSONConfig = dict[str, list[dict[str, str | list[str]]]] # json config type
+
 PYTHON_GLOBAL_INCLUDE: str = sysconfig.get_path("include", vars={"base": sys.base_prefix})
 PYTHON_VENV_INCLUDE: str = os.path.join(sys.prefix,
                                         "include" if "win32" not in sys.platform else "Include"
@@ -42,7 +44,7 @@ INSTALLED_GLOBALLY: bool = False
 if "linux" in sys.platform:
     current_package_manager = linux_detect_package_manager()[0]
     with open("linux_package_managers.json", "r", encoding="utf8") as pkgms:
-        package_managers: dict[str, list[dict[str, str | list[str]]]] = json.load(pkgms)
+        package_managers: JSONConfig = json.load(pkgms)
 
     for package_manager in package_managers["package_managers"]:
         if package_manager["name"] == current_package_manager:

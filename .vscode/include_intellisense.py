@@ -9,6 +9,8 @@ import json
 
 # import constants to have variable intellisense, works on windows
 
+JSONConfig = dict[str, list[dict[str, str | list[str]]] | int] # json config type with version
+
 PYTHON_GLOBAL_INCLUDE: str = sysconfig.get_path("include", vars={"base": sys.base_prefix})
 PYTHON_VENV_INCLUDE: str = os.path.join(sys.prefix,
                                         "include" if "win32" not in sys.platform else "Include"
@@ -46,7 +48,7 @@ FILENAME = os.path.join(".vscode", "c_cpp_properties.json")
 
 if __name__ == "__main__":
     with open(FILENAME, "r", encoding="utf8") as props:
-        c_cpp_properties: dict[str, list[dict[str, str | list[str]]] | int] = json.load(props)
+        c_cpp_properties: JSONConfig = json.load(props)
 
     index: int = -1
     for platform in c_cpp_properties["configurations"]:
