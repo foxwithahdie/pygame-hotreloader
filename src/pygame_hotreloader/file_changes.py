@@ -4,11 +4,9 @@ import watchdog
 from watchdog.observers import Observer, ObserverType
 from watchdog.events import FileSystemEventHandler, PatternMatchingEventHandler, FileModifiedEvent
 
-
 class DirectoryWatcher(FileSystemEventHandler):
     def __init__(self, dir: str):
         self.dir = dir
-        
     def on_any_event(self, event):
         print(f"{event.event_type}, {event.src_path}")
 

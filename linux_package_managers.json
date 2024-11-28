@@ -1,0 +1,263 @@
+{
+    "package_managers": [
+        {
+            "name": "apt",
+            "install": "install",
+            "essential_packages": [
+                "clang",
+                "python3-dev",
+                "libffi-dev",
+                "build-essential",
+                "cmake",
+                "libsdl2-dev"
+            ]
+        },
+        {
+            "name": "dnf",
+            "install": "install",
+            "essential_packages": [
+                "clang",
+                "python3-devel",
+                "libffi-devel",
+                "make",
+                "cmake",
+                "SDL2-devel"
+            ]
+        },
+        {
+            "name": "yum",
+            "install": "install",
+            "essential_packages": [
+                "clang",
+                "python3-devel",
+                "libffi-devel",
+                "make",
+                "cmake",
+                "SDL2-devel"
+            ]
+        },
+        {
+            "name": "zypper",
+            "install": "install",
+            "essential_packages": [
+                "clang",
+                "python3-devel",
+                "libffi-devel",
+                "make",
+                "cmake",
+                "libSDL2-devel"
+            ]
+        },
+        {
+            "name": "pacman",
+            "install": "-S",
+            "essential_packages": [
+                "clang",
+                "libffi",
+                "base-devel",
+                "cmake",
+                "sdl2"
+            ]
+        },
+        {
+            "name": "snap",
+            "install": "install",
+            "essential_packages": [
+                "clang",
+                "python3-dev",
+                "libffi-dev",
+                "build-essential",
+                "cmake"
+            ]
+        },
+        {
+            "name": "flatpak",
+            "install": "install",
+            "essential_packages": [
+                "clang",
+                "python3-dev",
+                "libffi-dev",
+                "build-essential",
+                "cmake"
+            ]
+        },
+        {
+            "name": "apk",
+            "install": "add",
+            "essential_packages": [
+                "clang",
+                "python3-dev",
+                "libffi-dev",
+                "build-base",
+                "cmake",
+                "sdl2"
+            ]
+        },
+        {
+            "name": "emerge",
+            "install": "",
+            "essential_packages": [
+                "clang",
+                "libffi",
+                "make",
+                "cmake"
+            ]
+        },
+        {
+            "name": "nix-env",
+            "install": "-i",
+            "essential_packages": [
+                "clang",
+                "libffi",
+                "make",
+                "cmake"
+            ]
+        },
+        {
+            "name": "brew",
+            "install": "install",
+            "essential_packages": [
+                "clang",
+                "python3",
+                "libffi",
+                "make",
+                "cmake",
+                "sdl2"
+            ]
+        },
+        {
+            "name": "eopkg",
+            "install": "install",
+            "essential_packages": [
+                "clang",
+                "python3-dev",
+                "libffi-dev",
+                "build-essential",
+                "cmake"
+            ]
+        },
+        {
+            "name": "xbps-install",
+            "install": "",
+            "essential_packages": [
+                "clang",
+                "libffi",
+                "make",
+                "cmake"
+            ]
+        },
+        {
+            "name": "slackpkg",
+            "install": "install",
+            "essential_packages": [
+                "clang",
+                "python3-dev",
+                "libffi-dev",
+                "make",
+                "cmake"
+            ]
+        },
+        {
+            "name": "portageq",
+            "install": "",
+            "essential_packages": [
+                "clang",
+                "libffi",
+                "make",
+                "cmake"
+            ]
+        },
+        {
+            "name": "guix",
+            "install": "package -i",
+            "essential_packages": [
+                "clang",
+                "libffi",
+                "make",
+                "cmake"
+            ]
+        },
+        {
+            "name": "kiss",
+            "install": "install",
+            "essential_packages": [
+                "clang",
+                "libffi",
+                "make",
+                "cmake"
+            ]
+        },
+        {
+            "name": "tazpkg",
+            "install": "install",
+            "essential_packages": [
+                "clang",
+                "python3-dev",
+                "libffi-dev",
+                "build-essential",
+                "cmake"
+            ]
+        },
+        {
+            "name": "pkg",
+            "install": "install",
+            "essential_packages": [
+                "clang",
+                "libffi",
+                "make",
+                "cmake"
+            ]
+        },
+        {
+            "name": "cave",
+            "install": "install",
+            "essential_packages": [
+                "clang",
+                "libffi",
+                "make",
+                "cmake"
+            ]
+        },
+        {
+            "name": "opkg",
+            "install": "install",
+            "essential_packages": [
+                "clang",
+                "python3-dev",
+                "libffi-dev",
+                "build-essential",
+                "cmake"
+            ]
+        },
+        {
+            "name": "spack",
+            "install": "install",
+            "essential_packages": [
+                "clang",
+                "libffi",
+                "make",
+                "cmake"
+            ]
+        },
+        {
+            "name": "pkg_add",
+            "install": "",
+            "essential_packages": [
+                "clang",
+                "libffi",
+                "make",
+                "cmake"
+            ]
+        },
+        {
+            "name": "pkg_admin",
+            "install": "install",
+            "essential_packages": [
+                "clang",
+                "libffi",
+                "make",
+                "cmake"
+            ]
+        }
+    ]
+}
