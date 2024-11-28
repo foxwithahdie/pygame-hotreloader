@@ -49,8 +49,8 @@ Should install all of the necessary packages through your package manager.
 - Fast
 
 ### TODO
-    - Find way to find the correct venv or global install
+    - Determine where SDL2 would be globally installed for different OSes that can globally install SDL2
     - Set up CMake
-    - Get proper include path put in setup.py and c_cpp_properties.json
+    - Find ways to transfer your c_cpp_properties.json without pushing it to version control
     - Find way to compile C extension without dynamically linked libraries being in the same directory
     

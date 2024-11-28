@@ -535,7 +535,8 @@ GitHub.sublime-settings
 !.vscode/launch.json
 !.vscode/extensions.json
 !.vscode/*.code-snippets
-!.vscode/c_cpp_properties.json
+.vscode/c_cpp_properties.json
+!.vscode/include_intellisense.py
 
 # Local History for Visual Studio Code
 .history/
@@ -577,6 +578,7 @@ $RECYCLE.BIN/
 # Compressed file formats
 *.zip
 *.tar.gz
+dependencies/*
 
 # Folder Readers - MacOS
 .DS_Store

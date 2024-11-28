@@ -10,17 +10,28 @@ from setuptools import Extension
 import pygame
 
 from package_install import install_packages
+from include_lib_paths import SDL2_INCLUDE, PYGAME_INCLUDE, PYTHON_GLOBAL_INCLUDE, \
+                              PYGAME_LIB, SDL2_LIB
 
 install_packages()
 
 pygame_lib = os.path.dirname(pygame.base.__file__)
 
 c_extension: Extension = Extension(
-    "pygame_hotreloader.c_extensions.c_extension",
-    sources=["c_extensions/src/hot_reload.c"],
-    include_dirs=["c_extensions/include"],
+    "_hotreload",
+    sources=["_hotreload/src/_hotreload.c"],
+    include_dirs=[
+        "_hotreload/include",
+        SDL2_INCLUDE,
+        PYGAME_INCLUDE,
+        PYTHON_GLOBAL_INCLUDE
+    ],
     libraries=[pygame_lib],
-    library_dirs=["c_extensions/lib"]
+    library_dirs=[
+        "_hotreload/lib",
+        PYGAME_LIB,
+        SDL2_LIB
+    ]
 )
 
 long_desc: str
