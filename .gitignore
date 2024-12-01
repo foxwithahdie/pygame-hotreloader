@@ -84,6 +84,11 @@ compile_commands.json
 CTestTestfile.cmake
 _deps
 
+# CREATED BY PYTHON SCRIPT #
+
+CMakeLists.txt
+
+
 ### CMake Patch ###
 # External projects
 *-prefix/
@@ -536,7 +541,7 @@ GitHub.sublime-settings
 !.vscode/extensions.json
 !.vscode/*.code-snippets
 .vscode/c_cpp_properties.json
-!.vscode/include_intellisense.py
+
 
 # Local History for Visual Studio Code
 .history/

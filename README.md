@@ -8,6 +8,8 @@ This will be a tool used for Pygame developers to be able to hotreload their gam
 
 ### Project Setup
 
+This library will ONLY work on CPython. If you have any other Python version that you are willing to add support for, let me know!
+
 Before installing this library, make sure that you have pygame already installed in a virtual environment.
 Run:
 ```
@@ -49,8 +51,7 @@ Should install all of the necessary packages through your package manager.
 - Fast
 
 ### TODO
-    - Determine where SDL2 would be globally installed for different OSes that can globally install SDL2
-    - Set up CMake
     - Find ways to transfer your c_cpp_properties.json without pushing it to version control
+    - Find way to compile C extension as a dynamic library
     - Find way to compile C extension without dynamically linked libraries being in the same directory
     

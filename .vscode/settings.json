@@ -2,6 +2,7 @@
     "files.associations": {
         "*.ejs": "html",
         "pygame.h": "c",
-        "_pygame.h": "c"
+        "_pygame.h": "c",
+        "_hotreload.h": "c"
     }
 }

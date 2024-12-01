@@ -10,8 +10,8 @@ from setuptools import Extension
 import pygame
 
 from package_install import install_packages
-from include_lib_paths import SDL2_INCLUDE, PYGAME_INCLUDE, PYTHON_GLOBAL_INCLUDE, \
-                              PYGAME_LIB, SDL2_LIB
+from scripts.include_lib_paths import SDL2_INCLUDE, PYGAME_INCLUDE, PYTHON_GLOBAL_INCLUDE, \
+                              PYGAME_LIB, SDL2_LIB, SDL2_BIN
 
 install_packages()
 
@@ -31,13 +31,14 @@ c_extension: Extension = Extension(
         "_hotreload/lib",
         PYGAME_LIB,
         SDL2_LIB
-    ]
+    ],
+    language="c",
+    runtime_library_dirs=[SDL2_BIN]
+    #extra_link_args=
 )
 
-long_desc: str
-
 with open("README.md", "r+", encoding="utf8") as README:
-    long_desc = README.read()
+    long_desc: str = README.read()
 
 setuptools.setup(
     name="pygame_hotreloader",

@@ -10,6 +10,35 @@ from linux_pkgm_detection import linux_detect_package_manager
 
 JSONConfig = dict[str, list[dict[str, str | list[str]]]] # json config type
 
+
+def localize_path(path: str) -> str:
+    """Turns the complete path string into a relative path.
+
+    Args:
+        path (str): The complete path.
+
+    Returns:
+        str: The relative path.
+    """
+    return "/".join(
+        path
+            .removeprefix(os.getcwd() + os.path.sep)
+            .split(os.path.sep)
+        )
+
+
+def convert_path_sep(path: str) -> str:
+    """Converts a Windows-style path into a Unix-style path.
+
+    Args:
+        path (str): The Windows-style path.
+
+    Returns:
+        str: The Unix-style path.
+    """
+    return "/".join(path.split("\\"))
+
+
 PYTHON_GLOBAL_INCLUDE: str = sysconfig.get_path("include", vars={"base": sys.base_prefix})
 PYTHON_VENV_INCLUDE: str = os.path.join(sys.prefix,
                                         "include" if "win32" not in sys.platform else "Include"
@@ -33,12 +62,14 @@ else:
                                 "site-packages",
                                 "pygame"
                             )
+
+PYGAME_SECOND_LIB: str | None = None
 if "linux" in sys.platform:
-    PYGAME_SECOND_LIB: str = os.path.join(PYTHON_VENV_LIB,
-                                       f"python{sys.version_info.major}.{sys.version_info.minor}",
-                                        "site-packages",
-                                        "pygame.libs"
-                                    )
+    PYGAME_SECOND_LIB = os.path.join(PYTHON_VENV_LIB,
+                                    f"python{sys.version_info.major}.{sys.version_info.minor}",
+                                    "site-packages",
+                                    "pygame.libs"
+                                )
 INSTALLED_GLOBALLY: bool = False
 
 if "linux" in sys.platform:
@@ -62,3 +93,6 @@ LIB_FOLDER: str = "x86_64-linux-gnu"
 SDL2_LIB: str = os.path.join(os.path.sep, "usr", "lib", LIB_FOLDER) \
                 if INSTALLED_GLOBALLY \
                 else os.path.join("dependencies", "SDL2", "lib")
+
+SDL2_BIN: str = "" if INSTALLED_GLOBALLY \
+                   else os.path.join("dependencies", "SDL2", "bin")

@@ -3,26 +3,15 @@ Script for editing c_cpp_properties.json for proper Intellisense in Visual Studi
 """
 
 import sys
-import sysconfig
 import os
 import json
+
+from scripts.include_lib_paths import PYTHON_GLOBAL_INCLUDE, PYTHON_VENV_INCLUDE, \
+                                      PYGAME_INCLUDE, SDL2_INCLUDE
 
 # import constants to have variable intellisense, works on windows
 
 JSONConfig = dict[str, list[dict[str, str | list[str]]] | int] # json config type with version
-
-PYTHON_GLOBAL_INCLUDE: str = sysconfig.get_path("include", vars={"base": sys.base_prefix})
-PYTHON_VENV_INCLUDE: str = os.path.join(sys.prefix,
-                                        "include" if "win32" not in sys.platform else "Include"
-                                    )
-
-PYGAME_INCLUDE: str = os.path.join(PYTHON_VENV_INCLUDE,
-                              "site",
-                              f"python{sys.version_info.major}.{sys.version_info.minor}",
-                              "pygame"
-                            )
-
-SDL2_INCLUDE: str = os.path.join("dependencies", "SDL2", "include", "SDL2")
 
 
 def vscode_format(file_path: str) -> str:
@@ -39,6 +28,7 @@ def vscode_format(file_path: str) -> str:
     """
     return r"${/}".join(file_path.split(os.path.sep))
 
+
 workspace_folder_variable: str = r"${workspaceFolder}"
 
 python_venv_include = PYTHON_VENV_INCLUDE.replace(os.getcwd(), workspace_folder_variable)
@@ -46,7 +36,11 @@ pygame_include = PYGAME_INCLUDE.replace(os.getcwd(), workspace_folder_variable)
 
 FILENAME = os.path.join(".vscode", "c_cpp_properties.json")
 
-if __name__ == "__main__":
+
+def include_intellisense() -> None:
+    """
+    Adds intellisense to Visual Studio Code's c_cpp_properties.json file according to your paths.
+    """
     with open(FILENAME, "r", encoding="utf8") as props:
         c_cpp_properties: JSONConfig = json.load(props)
 
@@ -68,3 +62,7 @@ if __name__ == "__main__":
         json.dump(c_cpp_properties, props, indent=4)
 
     print("edited c_cpp_properties.json")
+
+
+if __name__ == "__main__":
+    include_intellisense()
