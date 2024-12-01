@@ -1,21 +1,21 @@
 """
 Dynamic build script. Installs Python and non-Python packages.
 """
-
+import sys
 import os
 
 import setuptools
 from setuptools import Extension
 
-import pygame
+sys.path.insert(0, os.path.dirname(__file__))
 
-from package_install import install_packages
+import package_install
 from scripts.include_lib_paths import SDL2_INCLUDE, PYGAME_INCLUDE, PYTHON_GLOBAL_INCLUDE, \
                               PYGAME_LIB, SDL2_LIB, SDL2_BIN
 
-install_packages()
 
-pygame_lib = os.path.dirname(pygame.base.__file__)
+
+package_install.install_packages()
 
 c_extension: Extension = Extension(
     "_hotreload",
@@ -26,15 +26,14 @@ c_extension: Extension = Extension(
         PYGAME_INCLUDE,
         PYTHON_GLOBAL_INCLUDE
     ],
-    libraries=[pygame_lib],
+    libraries=[PYGAME_LIB],
     library_dirs=[
         "_hotreload/lib",
         PYGAME_LIB,
         SDL2_LIB
     ],
-    language="c",
-    runtime_library_dirs=[SDL2_BIN]
-    #extra_link_args=
+    data_files=[('', [os.path.join(SDL2_BIN, 'SDL2.dll')])],
+    language="c"
 )
 
 with open("README.md", "r+", encoding="utf8") as README:
@@ -53,7 +52,7 @@ setuptools.setup(
     ext_modules=[c_extension],
     packages=["pygame_hotreloader"],
     package_dir={"": "src"},
-    install_requires=["watchdog", "pygame>=2.6.0"],
+    install_requires=["watchdog", "pygame>=2.6.0", "parse_cmake"],
     extras_require={"dev": ["mypy"]},
     python_requires=">=3.9"
 )

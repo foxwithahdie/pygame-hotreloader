@@ -6,7 +6,7 @@ import sysconfig
 import sys
 import os
 
-from linux_pkgm_detection import linux_detect_package_manager
+from package_install import linux_detect_package_manager
 
 JSONConfig = dict[str, list[dict[str, str | list[str]]]] # json config type
 

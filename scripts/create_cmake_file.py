@@ -101,3 +101,7 @@ def create_cmake_file() -> None:
             cmake_file.write(str(cmake_config))
     except FileExistsError:
         print("Already exists!")
+
+if __name__ == "__main__":
+    create_cmake_file()
+    print("CMake File Created.")

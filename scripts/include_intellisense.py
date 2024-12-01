@@ -61,8 +61,7 @@ def include_intellisense() -> None:
     with open(FILENAME, "w", encoding="utf8") as props:
         json.dump(c_cpp_properties, props, indent=4)
 
-    print("edited c_cpp_properties.json")
-
 
 if __name__ == "__main__":
     include_intellisense()
+    print("edited c_cpp_properties.json")

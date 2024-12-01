@@ -84,10 +84,6 @@ compile_commands.json
 CTestTestfile.cmake
 _deps
 
-# CREATED BY PYTHON SCRIPT #
-
-CMakeLists.txt
-
 
 ### CMake Patch ###
 # External projects
@@ -540,8 +536,6 @@ GitHub.sublime-settings
 !.vscode/launch.json
 !.vscode/extensions.json
 !.vscode/*.code-snippets
-.vscode/c_cpp_properties.json
-
 
 # Local History for Visual Studio Code
 .history/
@@ -587,3 +581,9 @@ dependencies/*
 
 # Folder Readers - MacOS
 .DS_Store
+
+# Project Generated Files
+
+.vscode/c_cpp_properties.json
+CMakeLists.txt
+installed.txt
