@@ -6,12 +6,18 @@ import sys
 import os
 import json
 
-from scripts.include_lib_paths import PYTHON_GLOBAL_INCLUDE, PYTHON_VENV_INCLUDE, \
-                                      PYGAME_INCLUDE, SDL2_INCLUDE
+from scripts.include_lib_paths import (
+    PYTHON_GLOBAL_INCLUDE,
+    PYTHON_VENV_INCLUDE,
+    PYGAME_INCLUDE,
+    SDL2_INCLUDE,
+)
 
 # import constants to have variable intellisense, works on windows
 
-JSONConfig = dict[str, list[dict[str, str | list[str]]] | int] # json config type with version
+JSONConfig = dict[
+    str, list[dict[str, str | list[str]]] | int
+]  # json config type with version
 
 
 def vscode_format(file_path: str) -> str:
@@ -31,7 +37,9 @@ def vscode_format(file_path: str) -> str:
 
 workspace_folder_variable: str = r"${workspaceFolder}"
 
-python_venv_include = PYTHON_VENV_INCLUDE.replace(os.getcwd(), workspace_folder_variable)
+python_venv_include = PYTHON_VENV_INCLUDE.replace(
+    os.getcwd(), workspace_folder_variable
+)
 pygame_include = PYGAME_INCLUDE.replace(os.getcwd(), workspace_folder_variable)
 
 FILENAME = os.path.join(".vscode", "c_cpp_properties.json")
@@ -46,17 +54,18 @@ def include_intellisense() -> None:
 
     index: int = -1
     for platform in c_cpp_properties["configurations"]:
-        if sys.platform in platform["name"].lower() or \
-            (platform["name"].lower() == "macos" and "darwin" in sys.platform):
+        if sys.platform in platform["name"].lower() or (
+            platform["name"].lower() == "macos" and "darwin" in sys.platform
+        ):
             index = c_cpp_properties["configurations"].index(platform)
 
     c_cpp_properties["configurations"][index]["includePath"] = [
-            r"${workspaceFolder}${/}**",
-            vscode_format(PYTHON_GLOBAL_INCLUDE),
-            vscode_format(python_venv_include),
-            vscode_format(pygame_include),
-            vscode_format(os.path.join(workspace_folder_variable, SDL2_INCLUDE))
-        ]
+        r"${workspaceFolder}${/}**",
+        vscode_format(PYTHON_GLOBAL_INCLUDE),
+        vscode_format(python_venv_include),
+        vscode_format(pygame_include),
+        vscode_format(os.path.join(workspace_folder_variable, SDL2_INCLUDE)),
+    ]
 
     with open(FILENAME, "w", encoding="utf8") as props:
         json.dump(c_cpp_properties, props, indent=4)

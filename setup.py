@@ -19,6 +19,7 @@ from scripts.include_lib_paths import (
     SDL2_LIB,
     SDL2_BIN,
     PYGAME_SECOND_LIB,
+    SDL2_LIB_NAME,
 )
 
 
@@ -33,10 +34,10 @@ c_extension: Extension = Extension(
         PYGAME_INCLUDE,
         PYTHON_GLOBAL_INCLUDE,
     ],
-    libraries=["pygame", "SDL2"],
-    library_dirs=["_hotreload/lib", PYGAME_LIB, SDL2_LIB]
+    libraries=(["pygame"] if "linux" in sys.platform else []) + ["SDL2"],
+    library_dirs=[PYGAME_LIB, SDL2_LIB]
     + ([PYGAME_SECOND_LIB] if "linux" in sys.platform else []),
-    data_files=[("", [os.path.join(SDL2_BIN, "SDL2.dll")])],
+    data_files=[("", [os.path.join(SDL2_BIN, SDL2_LIB_NAME)])],
     language="c",
 )
 

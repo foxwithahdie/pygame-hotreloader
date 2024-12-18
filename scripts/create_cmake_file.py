@@ -47,6 +47,17 @@ def configure_cmake_file(cmake_config_file: File) -> None:
         ),
         BlankLine(),
         Command(
+            name="find_package",
+            body=[
+                Arg(contents="Python3"),
+                Arg(contents="REQUIRED"),
+                Arg(contents="COMPONENTS"),
+                Arg(contents="Interpreter"),
+                Arg(contents="Development"),
+            ],
+        ),
+        BlankLine(),
+        Command(
             name="target_include_directories",
             body=[
                 Arg(contents=project_name_ref),
@@ -55,10 +66,7 @@ def configure_cmake_file(cmake_config_file: File) -> None:
                 Arg(contents="PRIVATE"),
                 Arg(contents=f"{cmake_source_dir}/{localize_path(PYGAME_INCLUDE)}"),
                 Arg(contents="PRIVATE"),
-                Arg(
-                    contents=f"{convert_path_sep(PYTHON_GLOBAL_INCLUDE) \
-                                    if "win32" in sys.platform else PYTHON_GLOBAL_INCLUDE}"
-                ),
+                Arg(contents=r"${Python3_INCLUDE_DIRS}"),
                 Arg(contents="PRIVATE"),
             ]
             + (
@@ -99,12 +107,18 @@ def configure_cmake_file(cmake_config_file: File) -> None:
         BlankLine(),
         Command(
             name="target_link_libraries",
-            body=[Arg(contents=project_name_ref), Arg(contents="SDL2")],
+            body=[
+                Arg(contents=project_name_ref),
+                Arg(contents="PUBLIC"),
+                Arg(contents=r"${SDL2_LIBRARY}"),
+                Arg(contents="PRIVATE"),
+                Arg(contents=r"${Python3_LIBRARIES}"),
+            ],
         ),
     ]
     if INSTALLED_GLOBALLY:
         config_file_body.insert(
-            len(config_file_body) - 5,
+            len(config_file_body) - 7,
             Command(
                 name="find_package",
                 body=[Arg(contents="SDL2"), Arg(contents="REQUIRED")],
