@@ -4,5 +4,6 @@
         "pygame.h": "c",
         "_pygame.h": "c",
         "_hotreload.h": "c"
-    }
+    },
+    "python.analysis.autoFormatStrings": false,
 }

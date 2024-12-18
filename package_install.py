@@ -173,7 +173,7 @@ def install_packages() -> None:
             elif 'win32' in sys.platform:
                 packages = windows_installation()
 
-            f.write("Installed" + ", ".join(packages))
+            f.write("Installed " + ", ".join(packages))
 
     except FileExistsError as _:
         print("Already installed.")

@@ -1,30 +1,31 @@
-import sys, os, time, asyncio
+import asyncio
+import sys
+import os
 
-import watchdog
-from watchdog.observers import Observer, ObserverType
-from watchdog.events import FileSystemEventHandler, PatternMatchingEventHandler, FileModifiedEvent
+from watchdog.observers import Observer
+from watchdog.events import FileSystemEventHandler
 
 class DirectoryWatcher(FileSystemEventHandler):
-    def __init__(self, dir: str):
-        self.dir = dir
+    def __init__(self, directory: str):
+        self.directory = directory
     def on_any_event(self, event):
         print(f"{event.event_type}, {event.src_path}")
 
 
-def main():
-    path = os.path.join(".", "test_dir")
+async def main() -> None:
+    path: str = "."
     event_handler: DirectoryWatcher = DirectoryWatcher(path)
-    observer = Observer()
+    observer: Observer = Observer()
     observer.schedule(event_handler, path, recursive=True)
     observer.start()
     
     try:
         while True:
-            time.sleep(0.5)
+            await asyncio.sleep(0.5)
     except KeyboardInterrupt:
         observer.stop()
     
     observer.join()
     
 if __name__ == "__main__":
-    main()
+    asyncio.run(main())
