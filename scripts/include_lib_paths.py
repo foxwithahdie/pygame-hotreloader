@@ -36,6 +36,17 @@ def convert_path_sep(path: str) -> str:
     return "/".join(path.split("\\"))
 
 
+PYTHON_LIB: str | None = convert_path_sep(
+    os.path.join(
+        sys.base_prefix,
+        "libs",
+        f"python{sys.version_info.major}{sys.version_info.minor}.lib",
+    )
+    if "win32" in sys.platform
+    else None
+)
+
+
 PYTHON_GLOBAL_INCLUDE: str = sysconfig.get_path(
     "include", vars={"base": sys.base_prefix}
 )

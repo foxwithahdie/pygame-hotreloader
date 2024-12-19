@@ -7,16 +7,15 @@ import sys
 from parse_cmake.parsing import File, Arg, Command, _Command as CommandType, BlankLine
 
 from scripts.include_lib_paths import (
-    PYTHON_GLOBAL_INCLUDE,
     PYGAME_INCLUDE,
     PYGAME_LIB,
+    PYTHON_LIB,
     PYGAME_SECOND_LIB,
     SDL2_INCLUDE,
     SDL2_LIB,
     SDL2_BIN,
     INSTALLED_GLOBALLY,
     localize_path,
-    convert_path_sep,
 )
 
 
@@ -33,6 +32,11 @@ def configure_cmake_file(cmake_config_file: File) -> None:
         Command(
             name="cmake_minimum_required",
             body=[Arg(contents="VERSION"), Arg(contents="3.19.1")],
+        ),
+        BlankLine(),
+        Command(
+            name="set",
+            body=[Arg(contents="CMAKE_BUILD_TYPE"), Arg(contents='"Release"')],
         ),
         BlankLine(),
         Command(name="project", body=[Arg(contents="pygame-hotreloader")]),
@@ -112,13 +116,19 @@ def configure_cmake_file(cmake_config_file: File) -> None:
                 Arg(contents="PUBLIC"),
                 Arg(contents=r"${SDL2_LIBRARY}"),
                 Arg(contents="PRIVATE"),
-                Arg(contents=r"${Python3_LIBRARIES}"),
+                Arg(
+                    contents=(
+                        r"${Python3_LIBRARIES}"
+                        if "win32" not in sys.platform
+                        else PYTHON_LIB
+                    )
+                ),
             ],
         ),
     ]
     if INSTALLED_GLOBALLY:
         config_file_body.insert(
-            len(config_file_body) - 7,
+            len(config_file_body) - 9,
             Command(
                 name="find_package",
                 body=[Arg(contents="SDL2"), Arg(contents="REQUIRED")],
