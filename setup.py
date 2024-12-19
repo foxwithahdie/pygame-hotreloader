@@ -17,11 +17,10 @@ from scripts.include_lib_paths import (
     PYTHON_GLOBAL_INCLUDE,
     PYGAME_LIB,
     SDL2_LIB,
-    SDL2_BIN,
     PYGAME_SECOND_LIB,
     SDL2_LIB_NAME,
+    convert_path_sep,
 )
-
 
 package_install.install_packages()
 
@@ -29,7 +28,7 @@ c_extension: Extension = Extension(
     "_hotreload",
     sources=["_hotreload/src/_hotreload.c"],
     include_dirs=[
-        "_hotreload/include",
+        os.path.join("_hotreload", "include"),
         SDL2_INCLUDE,
         PYGAME_INCLUDE,
         PYTHON_GLOBAL_INCLUDE,
@@ -37,7 +36,7 @@ c_extension: Extension = Extension(
     libraries=["SDL2"],
     library_dirs=[PYGAME_LIB, SDL2_LIB]
     + ([PYGAME_SECOND_LIB] if "linux" in sys.platform else []),
-    data_files=[("", [os.path.join(SDL2_BIN, SDL2_LIB_NAME)])],
+    extra_link_args=[f"{convert_path_sep(SDL2_LIB)}/{SDL2_LIB_NAME}"],
     language="c",
 )
 

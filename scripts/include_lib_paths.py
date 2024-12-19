@@ -36,11 +36,13 @@ def convert_path_sep(path: str) -> str:
     return "/".join(path.split("\\"))
 
 
-PYTHON_LIB: str | None = convert_path_sep(
-    os.path.join(
-        sys.base_prefix,
-        "libs",
-        f"python{sys.version_info.major}{sys.version_info.minor}.lib",
+PYTHON_LIB: str | None = (
+    convert_path_sep(
+        os.path.join(
+            sys.base_prefix,
+            "libs",
+            f"python{sys.version_info.major}{sys.version_info.minor}.lib",
+        )
     )
     if "win32" in sys.platform
     else None
@@ -105,7 +107,9 @@ else:
     SDL2_INCLUDE: str = (
         os.path.join(os.path.sep, "usr", "include", "SDL2")
         if INSTALLED_GLOBALLY
-        else os.path.join("dependencies", "SDL2", "include", "SDL2")
+        else os.path.join(
+            "dependencies", "SDL2", "include", "" if "win32" in sys.platform else "SDL2"
+        )
     )
 
 
@@ -119,15 +123,19 @@ SDL2_LIB: str = (
     )
     if INSTALLED_GLOBALLY
     else os.path.join("dependencies", "SDL2", "lib")
+    + ((os.path.sep + "x64") if "win32" in sys.platform else "")
 )
 
 SDL2_BIN: str = (
-    "" if INSTALLED_GLOBALLY else os.path.join("dependencies", "SDL2", "bin")
+    ""
+    if INSTALLED_GLOBALLY
+    else os.path.join(
+        "dependencies", "SDL2", "bin" if "win32" not in sys.platform else "lib"
+    )
 )
 
-SDL2_LIB_NAME: str = "SDL2.dll"
+SDL2_LIB_NAME: str = "SDL2.lib"
 
 if __name__ == "__main__":
-    print(os.environ.get(PYGAME_LIB))
-    print(PYGAME_LIB)
-    print(os.path.isdir(PYGAME_LIB))
+    print(SDL2_LIB)
+    print(SDL2_INCLUDE)

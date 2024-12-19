@@ -10,16 +10,17 @@ import sys
 import zipfile
 import json
 
-JSONConfigList = list[dict[str, str | list[str]]] # json config list type
+JSONConfigList = list[dict[str, str | list[str]]]  # json config list type
+
 
 def linux_load_package_manager_config(
-        config_file: str = "linux_package_managers.json"
-    ) -> JSONConfigList:
+    config_file: str = "linux_package_managers.json",
+) -> JSONConfigList:
     """
     Loads the package manager json and its accompanying files from a json to a list of dictionaries.
 
     Args:
-        config_file (str, optional): The configuration file. 
+        config_file (str, optional): The configuration file.
         Defaults to "linux_package_managers.json".
 
     Raises:
@@ -39,15 +40,15 @@ def linux_load_package_manager_config(
 
 
 def linux_detect_package_manager(
-        config_file : str = "linux_package_managers.json"
-    ) -> tuple[str, str | None, list[str]] | None:
+    config_file: str = "linux_package_managers.json",
+) -> tuple[str, str | None, list[str]] | None:
     """
     Finds the first available linux distribution package manager and its
     corresponding install keyword.
 
     Args:
-        config_file (str, optional): The file containing popular 
-        Linux distribution package manager and its install keyword(s). 
+        config_file (str, optional): The file containing popular
+        Linux distribution package manager and its install keyword(s).
         Defaults to "linux_package_managers.json".
 
     Returns:
@@ -59,9 +60,12 @@ def linux_detect_package_manager(
 
     for manager in package_managers:
         if shutil.which(manager["name"]):
-            return manager["name"], \
-                   manager["install"] if manager["install"] != "" else None, \
-                   manager["essential_packages"]
+            return (
+                manager["name"],
+                manager["install"] if manager["install"] != "" else None,
+                manager["essential_packages"],
+            )
+
 
 def linux_installation() -> list[str]:
     """
@@ -72,9 +76,9 @@ def linux_installation() -> list[str]:
     """
     package_manager, install_kw, packages = linux_detect_package_manager()
     if install_kw is not None:
-        subprocess.call(['sudo', package_manager, install_kw, *packages])
+        subprocess.call(["sudo", package_manager, install_kw, *packages])
     else:
-        subprocess.call(['sudo', package_manager, *packages])
+        subprocess.call(["sudo", package_manager, *packages])
 
     if not any("sdl" in pkg.lower() for pkg in packages):
         if shutil.which("flatpak"):
@@ -82,8 +86,9 @@ def linux_installation() -> list[str]:
         elif shutil.which("snap"):
             subprocess.call(["snap", "install", "sdl2"])
         else:
-            subprocess.call(["git", "clone", "https://github.com/libsdl-org/SDL.git",
-                            "-b", "SDL2"])
+            subprocess.call(
+                ["git", "clone", "https://github.com/libsdl-org/SDL.git", "-b", "SDL2"]
+            )
             subprocess.call(["cd", "SDL"])
             subprocess.call(["mkdir", "build"])
             subprocess.call(["cd", "build"])
@@ -103,9 +108,9 @@ def macos_installation() -> list[str]:
     """
     packages: list[str] = ["sdl2"]
     try:
-        check_x_code_installation: subprocess.CompletedProcess[str] = \
-            subprocess.run(['xcode-select', '-p'], capture_output=True,
-                            text=True, check=True)
+        check_x_code_installation: subprocess.CompletedProcess[str] = subprocess.run(
+            ["xcode-select", "-p"], capture_output=True, text=True, check=True
+        )
         if check_x_code_installation:
             try:
                 subprocess.run(["clang", "--version"], check=True)
@@ -128,31 +133,24 @@ def windows_installation() -> list[str]:
     """
     packages: list[str] = ["SDL2"]
     dependencies_folder = os.listdir("dependencies")
-    sdl2_zip = dependencies_folder[0]
-    mingw = "mingw" in sdl2_zip
-    with zipfile.ZipFile(os.path.join("dependencies", sdl2_zip), "a") as zip_file:
-        zip_file.extractall("dependencies")
-    dependencies_folder = os.listdir("dependencies")
     sdl_folder = ""
+    sdl2_zip = dependencies_folder[0]
+
+    with zipfile.ZipFile(os.path.join(".", "dependencies", sdl2_zip), "a") as zip_file:
+        zip_file.extractall("dependencies")
+
+    dependencies_folder = os.listdir("dependencies")
     for file in dependencies_folder:
         if os.path.isdir(os.path.join("dependencies", file)):
             sdl_folder = os.path.join("dependencies", file)
-            break
-    if mingw:
-        sdl2_sources = os.path.join(sdl_folder, "x86_64-w64-mingw32")
-        shutil.move(sdl2_sources, "dependencies")
-        os.rename(os.path.join("dependencies", "x86_64-w64-mingw32"),
-                os.path.join("dependencies", "SDL2"))
-    else:
-        subprocess.call(["mkdir", os.path.join("dependencies", "SDL2")])
-        shutil.move(os.path.join(sdl_folder, "cmake"),
-                    os.path.join("dependencies", "SDL2"))
-        shutil.move(os.path.join(sdl_folder, "docs"),
-                    os.path.join("dependencies", "SDL2"))
-        shutil.move(os.path.join(sdl_folder, "include"),
-                    os.path.join("dependencies", "SDL2"))
-        shutil.move(os.path.join(sdl_folder, "lib"),
-                    os.path.join("dependencies", "SDL2"))
+
+    os.mkdir(os.path.join("dependencies", "SDL2"))
+    shutil.move(os.path.join(sdl_folder, "cmake"), os.path.join("dependencies", "SDL2"))
+    shutil.move(os.path.join(sdl_folder, "docs"), os.path.join("dependencies", "SDL2"))
+    shutil.move(
+        os.path.join(sdl_folder, "include"), os.path.join("dependencies", "SDL2")
+    )
+    shutil.move(os.path.join(sdl_folder, "lib"), os.path.join("dependencies", "SDL2"))
 
     os.remove(os.path.join("dependencies", sdl2_zip))
 
@@ -166,14 +164,14 @@ def install_packages() -> None:
     try:
         packages: list[str] = []
         with open("installed.txt", "x+", encoding="utf8") as f:
-            if 'linux' in sys.platform:
+            if "linux" in sys.platform:
                 packages = linux_installation()
-            elif 'darwin' in sys.platform:
+            elif "darwin" in sys.platform:
                 packages = macos_installation()
-            elif 'win32' in sys.platform:
+            elif "win32" in sys.platform:
                 packages = windows_installation()
 
-            f.write("Installed " + ", ".join(packages))
+            f.write("Installed" + ", ".join(packages))
 
     except FileExistsError as _:
         print("Already installed.")
