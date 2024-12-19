@@ -34,7 +34,7 @@ c_extension: Extension = Extension(
         PYGAME_INCLUDE,
         PYTHON_GLOBAL_INCLUDE,
     ],
-    libraries=(["pygame"] if "linux" in sys.platform else []) + ["SDL2"],
+    libraries=["SDL2"],
     library_dirs=[PYGAME_LIB, SDL2_LIB]
     + ([PYGAME_SECOND_LIB] if "linux" in sys.platform else []),
     data_files=[("", [os.path.join(SDL2_BIN, SDL2_LIB_NAME)])],
