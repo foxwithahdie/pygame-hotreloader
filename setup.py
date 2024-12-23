@@ -45,7 +45,7 @@ with open("README.md", "r+", encoding="utf8") as README:
 
 setuptools.setup(
     name="pygame_hotreloader",
-    version="0.0.1",
+    version="0.0.2",
     description="A hotreloader for Pygame.",
     long_description=long_desc,
     long_description_content_type="text/markdown",
@@ -56,7 +56,9 @@ setuptools.setup(
     ext_modules=[c_extension],
     packages=["pygame_hotreloader"],
     package_dir={"": "src"},
-    install_requires=["watchdog", "pygame>=2.6.0", "parse_cmake"],
+    include_package_data=True,
+    package_data={"pygame_hotreloader.resources.images": ["*.png"]},
+    install_requires=["watchdog", "pygame>=2.6.0", "parse_cmake", "numpy"],
     extras_require={"dev": ["mypy"]},
     python_requires=">=3.9",
 )

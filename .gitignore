@@ -577,7 +577,7 @@ $RECYCLE.BIN/
 # Compressed file formats
 *.zip
 *.tar.gz
-dependencies/*
+dependencies/**
 
 # Folder Readers - MacOS
 .DS_Store

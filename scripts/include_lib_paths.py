@@ -101,7 +101,12 @@ if "darwin" in sys.platform:
     SDL2_INCLUDE: str = (
         os.path.join(os.path.sep, "usr", "local", "include", "SDL2")
         if INSTALLED_GLOBALLY
-        else os.path.join("dependencies", "SDL2", "include", "SDL2")
+        else os.path.join(
+            "dependencies",
+            "SDL2",
+            "include",
+            "SDL2" if "win32" not in sys.platform else "",
+        )
     )
 else:
     SDL2_INCLUDE: str = (

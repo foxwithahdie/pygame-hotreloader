@@ -14,9 +14,10 @@ PyObject *method_structure(PyObject *self, PyObject *args) {
     // you can wrap your C functions in a python C function
 }
 
-static PyObject *version(PyObject *self) {
+static PyObject *version(PyObject *self) { // static if not meant to be used outside of the C source file - private
+// wanna use static for inner C code
     // version recorder
-    return Py_BuildValue("s", "pygame-hotreloader v0.0.1");
+    return Py_BuildValue("s", "pygame-hotreloader v0.0.2");
 }
 
 PyDoc_STRVAR(version_doc, "Returns the current version of the pygame-hotreloader project.");

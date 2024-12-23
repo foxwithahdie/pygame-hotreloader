@@ -6,4 +6,5 @@
         "_hotreload.h": "c"
     },
     "python.analysis.autoFormatStrings": false,
+    "python.analysis.useLibraryCodeForTypes": true
 }
